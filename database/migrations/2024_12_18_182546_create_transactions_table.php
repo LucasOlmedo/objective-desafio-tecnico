@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('account_id')->constrained();
             $table->decimal('amount', 15, 2);
+            $table->decimal('total_amount', 15, 2);
             $table->decimal('fee', 15, 2)->default(0);
             $table->enum('type', ['D', 'C', 'P']);
             $table->timestamps();
