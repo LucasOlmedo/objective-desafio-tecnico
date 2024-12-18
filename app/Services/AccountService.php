@@ -42,4 +42,11 @@ class AccountService
         $account = $this->getAccount($id);
         return $this->accountRepository->delete($account);
     }
+
+    public function deductBalance(int $id, float $amount)
+    {
+        $account = $this->getAccount($id);
+        $account->balance -= $amount;
+        return $this->accountRepository->update($account, ['balance' => $account->balance]);
+    }
 }
