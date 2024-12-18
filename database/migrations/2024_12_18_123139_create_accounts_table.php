@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('account_number')->unique();
             $table->decimal('balance', 15, 2)->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
