@@ -13,8 +13,11 @@ class AccountService
         $this->accountRepository = $accountRepository;
     }
 
-    public function getAllAccounts()
+    public function getAllAccounts(string $accountNumber = null)
     {
+        if ($accountNumber) {
+            return $this->accountRepository->getByAccountNumber($accountNumber);
+        }
         return $this->accountRepository->getAll();
     }
 

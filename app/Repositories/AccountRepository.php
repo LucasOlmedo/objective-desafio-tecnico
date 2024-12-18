@@ -18,6 +18,11 @@ class AccountRepository
         return $this->model->all();
     }
 
+    public function getByAccountNumber(string $accountNumber)
+    {
+        return $this->model->where('account_number', $accountNumber)->first();
+    }
+
     public function create(array $data)
     {
         return $this->model->create($data);

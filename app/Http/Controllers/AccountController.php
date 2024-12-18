@@ -17,9 +17,9 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = $this->accountService->getAllAccounts();
+        $accounts = $this->accountService->getAllAccounts($request->query('account_number'));
         return response()->json($accounts);
     }
 
