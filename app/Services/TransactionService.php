@@ -11,12 +11,6 @@ class TransactionService
     protected $transactionRepository;
     protected $accountService;
 
-    protected const FEES = [
-        TransactionTypeEnum::CREDIT => 0.05,
-        TransactionTypeEnum::DEBIT => 0.03,
-        TransactionTypeEnum::PIX => 0,
-    ];
-
     public function __construct(TransactionRepository $transactionRepository, AccountService $accountService)
     {
         $this->transactionRepository = $transactionRepository;
@@ -32,16 +26,18 @@ class TransactionService
     {
         [$account] = $this->accountService->getAllAccounts($data['account_number']);
         $data['account_id'] = $account->id;
+
         [$fee, $totalAmount] = $this->calculateFee($data['amount'], $data['type']);
         $data['fee'] = $fee;
         $data['total_amount'] = $totalAmount;
+
         $this->accountService->deductBalance($account->id, $data['total_amount']);
         return $this->transactionRepository->create($data);
     }
 
     public function getTransaction(int $id)
     {
-        try{
+        try {
             return $this->transactionRepository->find($id);
         } catch (\Exception $e) {
             throw new TransactionNotFoundException();
@@ -50,7 +46,7 @@ class TransactionService
 
     private function calculateFee(float $amount, string $type)
     {
-        $fee = $amount * self::FEES[$type];
+        $fee = $amount * TransactionTypeEnum::FEES[$type];
         return [
             $fee,
             $amount + $fee,

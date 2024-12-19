@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionRequest;
+use App\Http\Resources\AccountResource;
 use App\Http\Resources\TransactionResource;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class TransactionController extends Controller
     public function store(TransactionRequest $request)
     {
         $transaction = $this->transactionService->createTransaction($request->validated());
-        return new TransactionResource($transaction);
+        return new AccountResource($transaction->account);
     }
 
     /**
