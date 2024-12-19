@@ -19,10 +19,7 @@ class AccountService
     {
         if ($accountNumber) {
             $account = $this->accountRepository->getByAccountNumber($accountNumber);
-            if (empty($account)) {
-                throw new AccountNotFoundException();
-            }
-            return [$account];
+            return empty($account) ? throw new AccountNotFoundException() : [$account];
         }
         return $this->accountRepository->getAll();
     }

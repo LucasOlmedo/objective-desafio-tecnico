@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class InsufficientAccountBalanceException extends AccountException
+class InsufficientAccountBalanceException extends ApiException
 {
     public function __construct()
     {
