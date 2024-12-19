@@ -29,7 +29,7 @@ class TransactionService
 
     public function createTransaction(array $data)
     {
-        $account = $this->accountService->getAllAccounts($data['account_number']);
+        [$account] = $this->accountService->getAllAccounts($data['account_number']);
         $data['account_id'] = $account->id;
         [$fee, $totalAmount] = $this->calculateFee($data['amount'], $data['type']);
         $data['fee'] = $fee;

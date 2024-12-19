@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\AccountNotFoundException;
+use App\Exceptions\InsufficientAccountBalanceException;
 use App\Repositories\AccountRepository;
 
 class AccountService
@@ -56,6 +57,9 @@ class AccountService
     {
         $account = $this->getAccount($id);
         $account->balance -= $amount;
+        if ($account->balance < 0) {
+            throw new InsufficientAccountBalanceException();
+        }
         return $this->accountRepository->update($account, ['balance' => $account->balance]);
     }
 }
