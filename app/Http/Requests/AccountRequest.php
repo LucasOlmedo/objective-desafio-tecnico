@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AccountRequest extends FormRequest
 {
@@ -22,7 +23,11 @@ class AccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'account_number' => 'required|numeric|unique:accounts,account_number',
+            'account_number' => [
+                'required',
+                'numeric',
+                Rule::unique('accounts', 'account_number')->ignore($this->account),
+            ],
             'balance' => 'required|numeric|min:0',
         ];
     }
