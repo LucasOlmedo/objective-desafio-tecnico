@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\AccountNotFoundException;
+use App\Exceptions\InsufficientAccountBalanceException;
 use App\Repositories\AccountRepository;
 
 class AccountService
@@ -16,7 +18,11 @@ class AccountService
     public function getAllAccounts(string $accountNumber = null)
     {
         if ($accountNumber) {
-            return $this->accountRepository->getByAccountNumber($accountNumber);
+            $account = $this->accountRepository->getByAccountNumber($accountNumber);
+            if (empty($account)) {
+                throw new AccountNotFoundException();
+            }
+            return [$account];
         }
         return $this->accountRepository->getAll();
     }
@@ -28,7 +34,11 @@ class AccountService
 
     public function getAccount(int $id)
     {
-        return $this->accountRepository->find($id);
+        try {
+            return $this->accountRepository->find($id);
+        } catch (\Exception $e) {
+            throw new AccountNotFoundException();
+        }
     }
 
     public function updateAccount(int $id, array $data)
@@ -47,6 +57,9 @@ class AccountService
     {
         $account = $this->getAccount($id);
         $account->balance -= $amount;
+        if ($account->balance < 0) {
+            throw new InsufficientAccountBalanceException();
+        }
         return $this->accountRepository->update($account, ['balance' => $account->balance]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AccountRequest;
+use App\Http\Resources\AccountResource;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 
@@ -19,17 +21,18 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
-        $accounts = $this->accountService->getAllAccounts($request->query('account_number'));
-        return response()->json($accounts);
+        $accountNumber = $request->query('account_number');
+        $accounts = $this->accountService->getAllAccounts($accountNumber);
+        return AccountResource::collection($accounts);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AccountRequest $request)
     {
-        $account = $this->accountService->createAccount($request->all());
-        return response()->json($account);
+        $account = $this->accountService->createAccount($request->validated());
+        return new AccountResource($account);
     }
 
     /**
@@ -38,16 +41,16 @@ class AccountController extends Controller
     public function show(int $id)
     {
         $account = $this->accountService->getAccount($id);
-        return response()->json($account);
+        return new AccountResource($account);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AccountRequest $request, string $id)
     {
-        $account = $this->accountService->updateAccount($id, $request->all());
-        return response()->json($account);
+        $account = $this->accountService->updateAccount($id, $request->validated());
+        return new AccountResource($account);
     }
 
     /**
@@ -55,7 +58,9 @@ class AccountController extends Controller
      */
     public function destroy(string $id)
     {
-        $account = $this->accountService->deleteAccount($id);
-        return response()->json($account);
+        $this->accountService->deleteAccount($id);
+        return response()->json([
+            'message' => 'Account deleted successfully',
+        ]);
     }
 }

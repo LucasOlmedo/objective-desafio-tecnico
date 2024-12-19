@@ -30,7 +30,7 @@ class AccountRepository
 
     public function find(int $id)
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     public function update(Account $account, array $data)
