@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TransactionRequest;
+use App\Http\Resources\TransactionResource;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
@@ -20,16 +22,16 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $transactions = $this->transactionService->getAllTransactions();
-        return response()->json($transactions);
+        return TransactionResource::collection($transactions);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TransactionRequest $request)
     {
-        $transaction = $this->transactionService->createTransaction($request->all());
-        return response()->json($transaction);
+        $transaction = $this->transactionService->createTransaction($request->validated());
+        return new TransactionResource($transaction);
     }
 
     /**
@@ -38,6 +40,6 @@ class TransactionController extends Controller
     public function show(int $id)
     {
         $transaction = $this->transactionService->getTransaction($id);
-        return response()->json($transaction);
+        return new TransactionResource($transaction);
     }
 }

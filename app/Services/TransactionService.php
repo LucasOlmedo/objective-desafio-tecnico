@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\TransactionRepository;
 use App\Enums\TransactionTypeEnum;
+use App\Exceptions\TransactionNotFoundException;
 
 class TransactionService
 {
@@ -40,7 +41,11 @@ class TransactionService
 
     public function getTransaction(int $id)
     {
-        return $this->transactionRepository->find($id);
+        try{
+            return $this->transactionRepository->find($id);
+        } catch (\Exception $e) {
+            throw new TransactionNotFoundException();
+        }
     }
 
     private function calculateFee(float $amount, string $type)

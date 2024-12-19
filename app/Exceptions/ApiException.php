@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class AccountException extends Exception
+class ApiException extends Exception
 {
     /**
      * Render the exception as an HTTP response.

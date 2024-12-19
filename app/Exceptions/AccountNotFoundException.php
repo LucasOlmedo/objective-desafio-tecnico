@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class AccountNotFoundException extends AccountException
+class AccountNotFoundException extends ApiException
 {
     public function __construct()
     {
