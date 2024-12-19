@@ -117,13 +117,13 @@
                 "tags": [
                     "accounts"
                 ],
-                "summary": "Get account by id",
+                "summary": "Get account by ID",
                 "operationId": "cd9f0183c5cd7bac67286f466d1597bd",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Account id",
+                        "description": "Account ID",
                         "required": true
                     }
                 ],
@@ -162,13 +162,13 @@
                 "tags": [
                     "accounts"
                 ],
-                "summary": "Update account by id",
+                "summary": "Update account by ID",
                 "operationId": "8ef1d01b5c524f0ee8a3554969745fe5",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Account id",
+                        "description": "Account ID",
                         "required": true
                     }
                 ],
@@ -229,13 +229,13 @@
                 "tags": [
                     "accounts"
                 ],
-                "summary": "Delete account by id",
+                "summary": "Delete account by ID",
                 "operationId": "04193849c33df843473d0945b009a9f8",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Account id",
+                        "description": "Account ID",
                         "required": true
                     }
                 ],
@@ -263,12 +263,202 @@
                     }
                 }
             }
+        },
+        "/api/transaction": {
+            "get": {
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "Get all transactions",
+                "operationId": "222ab644996f1129069c70a30c4093dd",
+                "responses": {
+                    "200": {
+                        "description": "Transaction list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "account_number": {
+                                                "type": "integer"
+                                            },
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "formatted_type": {
+                                                "type": "string"
+                                            },
+                                            "amount": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "fee": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "total_amount": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "Create a new transaction",
+                "operationId": "c1dfbb6c34574495e19a7937dcd548ca",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "account_number": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "P",
+                                            "D",
+                                            "C"
+                                        ]
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transaction created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "account_number": {
+                                            "type": "integer"
+                                        },
+                                        "balance": {
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/transaction/{id}": {
+            "get": {
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "Get transaction by id",
+                "operationId": "17602426ac590be3694f1d179ee42732",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "account_number": {
+                                            "type": "integer"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "formatted_type": {
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "fee": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "accounts",
             "description": "accounts"
+        },
+        {
+            "name": "transactions",
+            "description": "transactions"
         }
     ]
 }

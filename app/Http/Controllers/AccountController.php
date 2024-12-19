@@ -8,14 +8,6 @@ use App\Services\AccountService;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Info(
- *     title="Objective Financial API",
- *     description="",
- *     version="1.0.0",
- * )
- */
-
 class AccountController extends Controller
 {
     protected $accountService;
@@ -108,12 +100,12 @@ class AccountController extends Controller
     /**
      * @OA\Get(
      *     path="/api/account/{id}",
-     *     summary="Get account by id",
+     *     summary="Get account by ID",
      *     tags={"accounts"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="Account id",
+     *         description="Account ID",
      *         required=true
      *     ),
      *     @OA\Response(
@@ -145,12 +137,12 @@ class AccountController extends Controller
     /**
      * @OA\Put(
      *     path="/api/account/{id}",
-     *     summary="Update account by id",
+     *     summary="Update account by ID",
      *     tags={"accounts"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="Account id",
+     *         description="Account ID",
      *         required=true
      *     ),
      *     @OA\RequestBody(
@@ -194,12 +186,12 @@ class AccountController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/account/{id}",
-     *     summary="Delete account by id",
+     *     summary="Delete account by ID",
      *     tags={"accounts"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="Account id",
+     *         description="Account ID",
      *         required=true
      *     ),    
      *     @OA\Response(
